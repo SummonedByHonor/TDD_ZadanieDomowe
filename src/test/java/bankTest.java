@@ -37,4 +37,30 @@ public class bankTest {
         //then
         assertThat(client.getAccount().getAccountFunds()).isPositive();
     }
+
+    @Test
+    public void shouldWithdrawFromAccount() {
+        //given
+        client = new Client("klient Adam");
+        client.getAccount().setAccountFunds(BigDecimal.valueOf(30.00));
+
+        //when
+        bank.withdrawFunds(client, BigDecimal.valueOf(15.00));
+
+        //then
+        assertThat(client.getAccount().getAccountFunds()).isEqualTo(BigDecimal.valueOf(15.00));
+    }
+
+    @Test
+    public void shouldAddFundsToAccount(){
+        //given
+        client = new Client("klient Antoni");
+        BigDecimal accountStateBeforeTransfer = client.getAccount().getAccountFunds();
+
+        //when
+        bank.addFundsToAccount(client, BigDecimal.valueOf(300));
+
+        //then
+        assertThat(client.getAccount().getAccountFunds()).isEqualTo(accountStateBeforeTransfer.add(BigDecimal.valueOf(300)));
+    }
 }
